@@ -192,4 +192,24 @@ class Api(
                 })
             })
         }.body()
+
+
+    // user preference
+
+    // Get all user preferences
+    // List all preferences of the authenticated user.
+    suspend fun getAllUserPreferences(): List<UserPreference> =
+        get("/api/v1/user/preferences").body()
+
+    // Find user preference by name
+    // Returns a single preference of the authenticated user
+    suspend fun getUserPreference(key: String): UserPreference =
+        get("/api/v1/user/preferences/$key").body()
+
+    // Update user preference
+    // Updates a preference of the authenticated user.
+    suspend fun updateUserPreference(key: String, req: UpdateUserPreferenceRequest) =
+        put("/api/v1/user/preferences/$key"){
+            setBody(req)
+        }
 }
