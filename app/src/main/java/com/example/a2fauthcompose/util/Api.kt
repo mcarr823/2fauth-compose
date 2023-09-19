@@ -90,4 +90,19 @@ class Api(
     //  /api/v1/twofaccounts/withdraw
     //  /api/v1/twofaccounts/export
     //  /api/v1/groups/{id}/twofaccounts
+
+
+    // one-time password
+
+    // Get a One-Time password
+    // Returns a fresh One-Time Password for the 2FA account of the authenticated user matching the specified ID
+    suspend fun getOtp(id: Int): OTP =
+        get("/api/v1/twofaccounts/$id/otp").body()
+
+    // Get a One-Time password
+    // Returns a fresh One-Time password with related parameters for account defined by the provided data
+    suspend fun getOtp(req: CreateOtpRequest): OTP =
+        post("/api/v1/twofaccounts/otp"){
+            setBody(req)
+        }.body()
 }
