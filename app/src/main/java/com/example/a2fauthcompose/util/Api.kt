@@ -212,4 +212,46 @@ class Api(
         put("/api/v1/user/preferences/$key"){
             setBody(req)
         }
+
+
+    // settings (admin only)
+
+    // Get all settings
+    // List all application settings. This includes 2FAuth native settings and possible additional
+    // admin-defined settings.
+    // Settings endpoints are restricted to user with an Administrator role.
+    suspend fun getAllSettings(): List<Setting> =
+        get("/api/v1/settings").body()
+
+    // Create custom setting
+    // Creates a new custom application setting. You are free to use this endpoint to store any
+    // data you need to administrate your own app.
+    // Settings endpoints are restricted to user with an Administrator role.
+    suspend fun createSetting(req: CreateSettingRequest): Setting =
+        post("/api/v1/settings"){
+            setBody(req)
+        }.body()
+
+    // Find setting by name
+    // Returns a single application setting, whether it is a native 2FAuth setting or a custom
+    // setting.
+    // Settings endpoints are restricted to user with an Administrator role.
+    suspend fun getSetting(key: String): Setting =
+        get("/api/v1/settings/$key").body()
+
+    // Update setting
+    // Updates an application setting, whether it is a native 2FAuth setting or a custom setting.
+    // Will create the setting if it does not exist.
+    // Settings endpoints are restricted to user with an Administrator role.
+    suspend fun updateSetting(key: String, req: UpdateSettingRequest): Setting =
+        put("/api/v1/settings/$key"){
+            setBody(req)
+        }.body()
+
+    // Delete custom setting
+    // Deletes a custom application setting.
+    // Settings endpoints are restricted to user with an Administrator role.
+    suspend fun deleteSetting(key: String): Boolean =
+        delete("/api/v1/settings/$key")
+
 }
