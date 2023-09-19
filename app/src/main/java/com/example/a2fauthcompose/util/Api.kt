@@ -171,4 +171,25 @@ class Api(
     // Deletes an icon from the server
     suspend fun deleteIcon(filename: String): Boolean =
         delete("/api/v1/icons/$filename")
+
+
+    // qr code
+
+    // Encode a 2FA account in a QR code
+    // Returns a QR code that represents a 2FA account owned by the authenticated user
+    suspend fun getQrCode(id: Int): QrCode =
+        get("/api/v1/twofaccounts/$id/qrcode").body()
+
+    // Decode a QR code
+    // Use this endpoint to decode a QR code (an image file: jpeg, png, bmp, gif, svg, or webp).
+    // The QR code is expected to be a 2FA resource but any QR code will be decoded.
+    suspend fun decodeQrCode(file: File, mimetype: String): QrCodeUrl =
+        post("/api/v1/qrcode/decode"){
+            setBody(formData {
+                this.append("qrcode", file.readBytes(), Headers.build {
+                    append(HttpHeaders.ContentType, mimetype)
+                    append(HttpHeaders.ContentDisposition, "filename=${file.name}")
+                })
+            })
+        }.body()
 }
