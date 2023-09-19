@@ -151,4 +151,24 @@ class Api(
     // Finds all existing 2FA accounts assigned to a group of the authenticated user
     suspend fun get2FaAccountsByGroupId(groupId: Int,  withSecret: Boolean): List<Account> =
         get("/api/v1/groups/$groupId/twofaccounts?withSecret=$withSecret").body()
+
+
+    // icons
+
+    // Upload an icon
+    // Use this endpoint to upload and store an icon (an image file: jpeg, png, bmp, gif, svg, or webp) on the server
+    suspend fun createIcon(file: File, mimetype: String): CreateIconResponse =
+        post("/api/v1/icons"){
+            setBody(formData {
+                this.append("icon", file.readBytes(), Headers.build {
+                    append(HttpHeaders.ContentType, mimetype)
+                    append(HttpHeaders.ContentDisposition, "filename=${file.name}")
+                })
+            })
+        }.body()
+
+    // Delete an icon
+    // Deletes an icon from the server
+    suspend fun deleteIcon(filename: String): Boolean =
+        delete("/api/v1/icons/$filename")
 }
