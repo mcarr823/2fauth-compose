@@ -241,20 +241,36 @@ class Api(
 
     // qr code
 
-    // Encode a 2FA account in a QR code
-    // Returns a QR code that represents a 2FA account owned by the authenticated user
+    /**
+     * Returns a QR code that represents a 2FA account owned by the authenticated user
+     * @param id ID of the 2faccount for which to generate a QR code
+     * @return The generated QR code as a base64 image
+     * */
     suspend fun getQrCode(id: Int): QrCode =
         get("/api/v1/twofaccounts/$id/qrcode").body()
 
-    // Decode a QR code
-    // Use this endpoint to decode a QR code (an image file: jpeg, png, bmp, gif, svg, or webp).
-    // The QR code is expected to be a 2FA resource but any QR code will be decoded.
+    /**
+     * Use this endpoint to decode a QR code (an image file: jpeg, png, bmp, gif, svg, or webp).
+     * The QR code is expected to be a 2FA resource but any QR code will be decoded.
+     * @param file QR code image file to decode
+     * @param mimetype Mimetype of the image to decode from the file. eg. image/jpeg
+     * @return URL which was encoded as the given QR code
+     * */
     suspend fun decodeQrCode(file: File, mimetype: String): QrCodeUrl =
+        decodeQrCode(file.readBytes(), mimetype)
+
+    /**
+     * Use this endpoint to decode a QR code (an image file: jpeg, png, bmp, gif, svg, or webp).
+     * The QR code is expected to be a 2FA resource but any QR code will be decoded.
+     * @param bytes ByteArray containing the image data of a QR code
+     * @param mimetype Mimetype of the image to decode from the byte data. eg. image/jpeg
+     * @return URL which was encoded as the given QR code
+     * */
+    suspend fun decodeQrCode(bytes: ByteArray, mimetype: String): QrCodeUrl =
         post("/api/v1/qrcode/decode"){
             setBody(formData {
-                this.append("qrcode", file.readBytes(), Headers.build {
+                this.append("qrcode", bytes, Headers.build {
                     append(HttpHeaders.ContentType, mimetype)
-                    append(HttpHeaders.ContentDisposition, "filename=${file.name}")
                 })
             })
         }.body()
