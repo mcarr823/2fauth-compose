@@ -2,9 +2,12 @@ package com.example.a2fauthcompose
 
 import com.example.a2fauthcompose.data.classes.Account
 import com.example.a2fauthcompose.data.classes.CreateAccountRequest
+import com.example.a2fauthcompose.data.classes.CreateGroupRequest
 import com.example.a2fauthcompose.data.classes.CreateOtpRequest
 import com.example.a2fauthcompose.data.classes.UpdateAccountRequest
+import com.example.a2fauthcompose.data.classes.UpdateGroupRequest
 import com.example.a2fauthcompose.data.exceptions.Auth2FException404
+import com.example.a2fauthcompose.data.exceptions.Auth2FException422
 import com.example.a2fauthcompose.util.Api
 import com.example.a2fauthcompose.util.HttpUtil
 import kotlinx.coroutines.test.runTest
@@ -290,6 +293,98 @@ class ApiUnitTest {
                     false
                 }
             assert(success)
+        }
+
+    }
+
+    @Test
+    fun testGroupApiRequests(){
+
+        val groupName = "My new test group"
+        val groupName2 = "My new test group2"
+        val newGroupRequest = CreateGroupRequest(name = groupName)
+        val updateGroupRequest = UpdateGroupRequest(name = groupName2)
+
+        runTest {
+
+            val originalNumberOfGroups =
+                try {
+                    val groups = api.getAllGroups()
+                    groups.size
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    -1
+                }
+            assertNotEquals(-1, originalNumberOfGroups)
+
+            val group =
+                try {
+                    api.createGroup(req = newGroupRequest)
+                }catch (e: Auth2FException422){
+                    //Group with this name already exists
+                    e.printStackTrace()
+                    null
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    null
+                }
+            assertNotNull(group)
+
+            val numberOfGroupsAfterCreate =
+                try {
+                    val groups = api.getAllGroups()
+                    groups.size
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    -1
+                }
+            assertNotEquals(-1, numberOfGroupsAfterCreate)
+            assertEquals(originalNumberOfGroups + 1, numberOfGroupsAfterCreate)
+
+            val updatedGroup =
+                try {
+                    api.updateGroup(id = group.id, req = updateGroupRequest)
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    null
+                }
+            assertNotNull(updatedGroup)
+            assertEquals(groupName2, updatedGroup.name)
+
+            val success =
+                try {
+                    api.deleteGroup(id = group.id)
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    false
+                }
+            assert(success)
+
+            val deleteWasSuccessful =
+                try {
+                    api.getGroup(id = group.id)
+                    false
+                }catch (e: Auth2FException404){
+                    //Expected exception
+                    true
+                }catch (e: Exception){
+                    //Unexpected exception
+                    e.printStackTrace()
+                    false
+                }
+            assert(deleteWasSuccessful)
+
+            val numberOfGroupsAfterDelete =
+                try {
+                    val groups = api.getAllGroups()
+                    groups.size
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    -1
+                }
+            assertNotEquals(-1, numberOfGroupsAfterDelete)
+            assertEquals(originalNumberOfGroups, numberOfGroupsAfterDelete)
+            assertEquals(numberOfGroupsAfterCreate - 1, numberOfGroupsAfterDelete)
         }
 
     }
