@@ -98,7 +98,7 @@ class Api(
      * @return Updated 2fa account
      * */
     suspend fun update2FaAccount(id: Int, req: UpdateAccountRequest): Account =
-        put(" /api/v1/twofaccounts/$id"){
+        put("/api/v1/twofaccounts/$id"){
             setBody(req)
         }.body()
 
@@ -108,7 +108,7 @@ class Api(
      * @return True if successful
      * */
     suspend fun delete2FaAccount(id: Int): Boolean =
-        delete(" /api/v1/twofaccounts/$id")
+        delete("/api/v1/twofaccounts/$id")
 
     // Not implemented:
     //  /api/v1/twofaccounts/migration
