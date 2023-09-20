@@ -25,14 +25,15 @@ data class Account(
     val counter: Int?,
 )
 
+//Account and type are the only 2 required fields
 @Serializable
 data class CreateAccountRequest(
-    val service: String,
+    val service: String?,
     val account: String,
-    val icon: String, //filename
+    val icon: String?, //filename
     val otp_type: String,
-    val digits: Int,
-    val algorithm: String,
+    val digits: Int?,
+    val algorithm: String?,
     val secret: String?,
     val period: Int?,
     val counter: Int?,
@@ -40,12 +41,12 @@ data class CreateAccountRequest(
 
 @Serializable
 data class UpdateAccountRequest(
-    val service: String,
+    val service: String?,
     val account: String,
-    val icon: String, //filename
+    val icon: String?, //filename
     val otp_type: String,
-    val digits: Int,
-    val algorithm: String,
+    val digits: Int?,
+    val algorithm: String?,
     val secret: String?,
     val period: Int?,
     val counter: Int?,
