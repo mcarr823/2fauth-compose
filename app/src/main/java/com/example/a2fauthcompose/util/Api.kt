@@ -56,37 +56,57 @@ class Api(
 
     //twofaccounts
 
-    // Get all 2FA accounts
-    // Find all 2FA accounts of the authenticated user
+    /**
+     * Find all 2FA accounts of the authenticated user
+     * @param withSecret If true, include the secret of the 2fa credential in the response
+     * @return List of 2fa accounts
+     * */
     suspend fun getAll2FaAccounts(withSecret: Boolean): List<Account> =
         get("/api/v1/twofaccounts?withSecret=$withSecret").body()
 
-    // Create 2FA account
-    // Creates a new 2FA account for the authenticated user
+     /**
+      * Creates a new 2FA account for the authenticated user
+      * @param req Account creation request object for the newly added service
+      * @return 2fa account which was created
+      * */
     suspend fun create2FaAccount(req: CreateAccountRequest): Account =
         post("/api/v1/twofaccounts"){
             setBody(req)
         }.body()
 
-    // Mass delete 2FA accounts
-    // Mass deletes 2FA accounts of the authenticated user matching the IDs passed as query parameter.
+    /**
+     * Mass deletes 2FA accounts of the authenticated user matching the IDs passed as query parameter.
+     * @param ids Array of ids for accounts to delete
+     * @return True if successful
+     * */
     suspend fun delete2FaAccount(ids: IntArray): Boolean =
         delete("/api/v1/twofaccounts?ids="+ids.joinToString(","))
 
-    // Find 2FA account by ID
-    // Returns a single 2FA account of the authenticated user
+    /**
+     * Returns a single 2FA account of the authenticated user
+     * @param id ID of the account to retrieve
+     * @param withSecret If true, include the secret of the 2fa credential in the response
+     * @return 2fa account with the given ID
+     * */
     suspend fun get2FaAccount(id: Int, withSecret: Boolean): Account =
         get("/api/v1/twofaccounts/$id?withSecret=$withSecret").body()
 
-    // Update 2FA account
-    // Updates a 2FA account of the authenticated user
+    /**
+     * Updates a 2FA account of the authenticated user
+     * @param id ID of the account to update
+     * @param req Updated account details to apply
+     * @return Updated 2fa account
+     * */
     suspend fun update2FaAccount(id: Int, req: UpdateAccountRequest): Account =
         put(" /api/v1/twofaccounts/$id"){
             setBody(req)
         }.body()
 
-    // Delete 2FA account
-    // Deletes a 2FA account of the authenticated user
+    /**
+     * Deletes a 2FA account of the authenticated user
+     * @param id ID of the account to delete
+     * @return True if successful
+     * */
     suspend fun delete2FaAccount(id: Int): Boolean =
         delete(" /api/v1/twofaccounts/$id")
 

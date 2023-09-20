@@ -2,6 +2,14 @@ package com.example.a2fauthcompose.data.classes
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Represents a 2fa account.
+ * An "account" is a token generator for a given service.
+ * It refers to the account on a third-party service for which you are generating tokens.
+ * eg. an account for your Google login, an account for your Atlassian login, and so on.
+ *
+ * This is not to be confused with your 2fauth login.
+ * */
 @Serializable
 data class Account(
     val id: Int,
