@@ -214,8 +214,12 @@ class Api(
 
     // icons
 
-    // Upload an icon
-    // Use this endpoint to upload and store an icon (an image file: jpeg, png, bmp, gif, svg, or webp) on the server
+    /**
+     * Use this endpoint to upload and store an icon (an image file: jpeg, png, bmp, gif, svg, or webp) on the server
+     * @param file Image file to upload
+     * @param mimetype Mimetype of the image. eg. image/jpeg
+     * @return Name of successfully uploaded file, wrapped in CreateIconResponse object
+     * */
     suspend fun createIcon(file: File, mimetype: String): CreateIconResponse =
         post("/api/v1/icons"){
             setBody(formData {
@@ -226,8 +230,11 @@ class Api(
             })
         }.body()
 
-    // Delete an icon
-    // Deletes an icon from the server
+    /**
+     * Deletes an icon from the server
+     * @param filename Name of the icon to delete
+     * @return True if successful
+     * */
     suspend fun deleteIcon(filename: String): Boolean =
         delete("/api/v1/icons/$filename")
 
