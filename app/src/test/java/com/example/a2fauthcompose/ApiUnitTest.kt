@@ -9,13 +9,11 @@ import com.example.a2fauthcompose.data.classes.UpdateGroupRequest
 import com.example.a2fauthcompose.data.exceptions.Auth2FException404
 import com.example.a2fauthcompose.data.exceptions.Auth2FException422
 import com.example.a2fauthcompose.util.Api
-import com.example.a2fauthcompose.util.HttpUtil
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class ApiUnitTest {
 
@@ -385,6 +383,48 @@ class ApiUnitTest {
             assertNotEquals(-1, numberOfGroupsAfterDelete)
             assertEquals(originalNumberOfGroups, numberOfGroupsAfterDelete)
             assertEquals(numberOfGroupsAfterCreate - 1, numberOfGroupsAfterDelete)
+        }
+
+    }
+
+    /**
+     * This test requires at least 1 account to exist in the 2fauth instance before it can run.
+     * */
+    @Test
+    fun testQrCodeApiRequests(){
+
+        runTest {
+            val account =
+                try {
+                    val accounts = api.getAll2FaAccounts(withSecret = false)
+                    accounts.firstOrNull()
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    null
+                }
+            assertNotNull(account)
+
+            val qrCode =
+                try {
+                    api.getQrCode(account.id)
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    null
+                }
+            assertNotNull(qrCode)
+
+            //This test currently won't run because Base64.decode isn't mocked
+            /*val decodedBytes = Base64.decode(qrCode.qrcode, Base64.DEFAULT)
+            val qrCodeUrl =
+                try {
+                    api.decodeQrCode(decodedBytes, "image/png")
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    null
+                }
+
+            assertNotNull(qrCodeUrl)*/
+
         }
 
     }
