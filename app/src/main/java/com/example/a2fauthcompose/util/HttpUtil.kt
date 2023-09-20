@@ -56,7 +56,7 @@ class HttpUtil(
 
     @Throws(Exception::class)
     private suspend fun performRequest(method: HttpMethod, path: String, setBodyCallback: HttpRequestBuilder.() -> Unit): HttpResponse {
-        val httpResponse = httpClient.request("$apiUrl/api/$path"){
+        val httpResponse = httpClient.request("$apiUrl$path"){
             this.method = method
             headers {
                 append(HttpHeaders.Authorization, "Bearer $token")

@@ -33,6 +33,13 @@ class Api(
     val httpUtil: HttpUtil
 ) {
 
+    constructor(
+        apiUrl: String,
+        token: String,
+        disableHttpsVerification: Boolean = false,
+        testing: Boolean = false
+    ) : this(HttpUtil(apiUrl, token, disableHttpsVerification, testing))
+
     private suspend fun get(path: String) =
         httpUtil.get(path)
 
