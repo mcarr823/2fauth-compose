@@ -2,6 +2,7 @@ package com.example.a2fauthcompose
 
 import com.example.a2fauthcompose.data.classes.Account
 import com.example.a2fauthcompose.data.classes.CreateAccountRequest
+import com.example.a2fauthcompose.data.classes.CreateOtpRequest
 import com.example.a2fauthcompose.data.classes.UpdateAccountRequest
 import com.example.a2fauthcompose.data.exceptions.Auth2FException404
 import com.example.a2fauthcompose.util.Api
@@ -190,6 +191,105 @@ class ApiUnitTest {
                 }
             assert(deletesWereSuccessful)
 
+        }
+
+    }
+
+    @Test
+    fun testOtpApiRequests(){
+
+        val service = "MyTestSite"
+        val accountName = "john.doe"
+        val icon: String? = null
+        val otpType = "totp"
+        val digits = 6
+        val digits2 = 5
+        val algorithm = "sha1"
+        val secret = "GJTGC5LUNA======"
+        val period = 30
+        val counter: Int? = null
+        val newAccountRequest = CreateAccountRequest(
+            service = service,
+            account = accountName,
+            icon = icon,
+            otp_type = otpType,
+            digits = digits,
+            algorithm = algorithm,
+            secret = secret,
+            period = period,
+            counter = counter
+        )
+        val newOtpRequest = CreateOtpRequest(
+            service = service,
+            account = accountName,
+            icon = icon,
+            otp_type = otpType,
+            digits = digits,
+            algorithm = algorithm,
+            secret = secret,
+            period = period,
+            counter = counter
+        )
+        val newOtpRequest2 = CreateOtpRequest(
+            service = service,
+            account = accountName,
+            icon = icon,
+            otp_type = otpType,
+            digits = digits2,
+            algorithm = algorithm,
+            secret = secret,
+            period = period,
+            counter = counter
+        )
+
+        runTest {
+            val account =
+                try {
+                    api.create2FaAccount(req = newAccountRequest)
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    null
+                }
+            assertNotNull(account)
+
+            val otp =
+                try {
+                    api.getOtp(account.id)
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    null
+                }
+            assertNotNull(otp)
+
+            val otp2 =
+                try {
+                    api.getOtp(newOtpRequest)
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    null
+                }
+            assertNotNull(otp2)
+
+            val otp3 =
+                try {
+                    api.getOtp(newOtpRequest2)
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    null
+                }
+            assertNotNull(otp3)
+
+            assertEquals(otp.password, otp2.password)
+            assertNotEquals(otp.password, otp3.password)
+
+            val success =
+                try {
+                    api.delete2FaAccount(account.id)
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    false
+                }
+            assert(success)
         }
 
     }
