@@ -176,7 +176,7 @@ class Api(
      * @return Updated group returned from the 2fauth system
      * */
     suspend fun updateGroup(id: Int, req: UpdateGroupRequest): Group =
-        post("/api/v1/groups/$id"){
+        put("/api/v1/groups/$id"){
             setBody(req)
         }.body()
 
