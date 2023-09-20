@@ -3,12 +3,12 @@ package com.example.a2fauthcompose.data.classes
 import kotlinx.serialization.Serializable
 
 @Serializable
-class OTP(
-    password: String,
-    otp_type: String,
-    generated_at: Int?,
-    period: Int?,
-    counter: Int?
+data class OTP(
+    val password: String,
+    val otp_type: String,
+    val generated_at: Int?,
+    val period: Int?,
+    val counter: Int?
 )
 
 @Serializable
