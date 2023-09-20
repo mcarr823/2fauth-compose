@@ -144,47 +144,71 @@ class Api(
 
     // groups
 
-    // Get all groups
-    // Find all groups of the authenticated user
+    /**
+     * Find all groups of the authenticated user
+     * @return List of OTP account groups
+     * */
     suspend fun getAllGroups(): List<Group> =
         get("/api/v1/groups").body()
 
-    // Create Group
-    // Creates a new group for the authenticated user
+    /**
+     * Creates a new group for the authenticated user
+     * @param req Group creation request object
+     * @return Group created in the 2fauth system
+     * */
     suspend fun createGroup(req: CreateGroupRequest): Group =
         post("/api/v1/groups"){
             setBody(req)
         }.body()
 
-    // Find group by ID
-    // Returns a single group of the authenticated user
+    /**
+     * Returns a single group of the authenticated user
+     * @param id ID of the group to retrieve
+     * @return Group matching the given ID
+     * */
     suspend fun getGroup(id: Int): Group =
         get("/api/v1/groups/$id").body()
 
-    // Update group
-    // Updates a group of the authenticated user
+    /**
+     * Updates a group of the authenticated user
+     * @param id ID of the group to update
+     * @param req Group update request object
+     * @return Updated group returned from the 2fauth system
+     * */
     suspend fun updateGroup(id: Int, req: UpdateGroupRequest): Group =
         post("/api/v1/groups/$id"){
             setBody(req)
         }.body()
 
-    // Delete group
-    // Deletes a group of the authenticated user. This will not delete any assigned 2FA accounts.
+    /**
+     * Deletes a group of the authenticated user. This will not delete any assigned 2FA accounts.
+     * @param id ID of the group to delete
+     * @return True if successful
+     * */
     suspend fun deleteGroup(id: Int): Boolean =
         delete("/api/v1/groups/$id")
 
-    // Add 2FA accounts to a group
-    // Adds a list of 2FA accounts to a group of the authenticated user. An account previously
-    // assigned to another group will be removed from its former group. The 2FA accounts must be
-    // owned by the authenticated user.
+    /**
+     * Adds a list of 2FA accounts to a group of the authenticated user. An account previously
+     * assigned to another group will be removed from its former group. The 2FA accounts must be
+     * owned by the authenticated user.
+     * @param groupId ID of the group to assign to one or more OTP 2faccounts
+     * @param req Assign group request object, containing the ids of the 2faccounts to assign to
+     * the given group
+     * @return The group which the given 2faccounts have been assigned to
+     * */
     suspend fun assignGroup(groupId: Int, req: AssignGroupRequest): Group =
         post("/api/v1/groups/$groupId/assign"){
             setBody(req)
         }.body()
 
-    // Get all 2FA accounts of a group
-    // Finds all existing 2FA accounts assigned to a group of the authenticated user
-    suspend fun get2FaAccountsByGroupId(groupId: Int,  withSecret: Boolean): List<Account> =
+    /**
+     * Finds all existing 2FA accounts assigned to a group of the authenticated user
+     * @param groupId ID of the group for which to find assigned 2faccounts
+     * @param withSecret If true, include account secrets in the response
+     * @return List of accounts belonging to the specified group
+     * */
+    suspend fun get2FaAccountsByGroupId(groupId: Int, withSecret: Boolean): List<Account> =
         get("/api/v1/groups/$groupId/twofaccounts?withSecret=$withSecret").body()
 
 
