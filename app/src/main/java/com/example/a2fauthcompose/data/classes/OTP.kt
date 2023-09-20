@@ -2,6 +2,11 @@ package com.example.a2fauthcompose.data.classes
 
 import kotlinx.serialization.Serializable
 
+/**
+ * This class represents an OTP token as of a particular moment in time.
+ * After generating a token, you will use the `password` (2FA token) value to prove your identity
+ * to a third party.
+ * */
 @Serializable
 data class OTP(
     val password: String,

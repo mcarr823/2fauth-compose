@@ -121,13 +121,21 @@ class Api(
 
     // one-time password
 
-    // Get a One-Time password
-    // Returns a fresh One-Time Password for the 2FA account of the authenticated user matching the specified ID
+    /**
+     * Returns a fresh One-Time Password for the 2FA account of the authenticated user matching the
+     * specified ID
+     * @param id ID of the 2faccount to retrieve a token for
+     * @return Current OTP token for given account
+     * */
     suspend fun getOtp(id: Int): OTP =
         get("/api/v1/twofaccounts/$id/otp").body()
 
-    // Get a One-Time password
-    // Returns a fresh One-Time password with related parameters for account defined by the provided data
+    /**
+     * Returns a fresh One-Time password with related parameters for account defined by the provided
+     * data
+     * @param req OTP creation request object
+     * @return Current OTP token for `req` object passed in
+     * */
     suspend fun getOtp(req: CreateOtpRequest): OTP =
         post("/api/v1/twofaccounts/otp"){
             setBody(req)
