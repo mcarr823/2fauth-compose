@@ -428,5 +428,106 @@ class ApiUnitTest {
         }
 
     }
+    @Test
+    fun testUserPreferenceApiRequests(){
+
+        val fakePreferenceKey = "ThisIsNotARealPreference"
+
+        runTest {
+
+            val preferences =
+                try {
+                    api.getAllUserPreferences()
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    null
+                }
+            assertNotNull(preferences)
+            assertNotEquals(0, preferences.size)
+
+            val firstPref = preferences.firstOrNull()
+            assertNotNull(firstPref)
+
+            println("Getting pref: ${firstPref.key}")
+
+            //FIXME Below test not currently working
+            //Matches the spec, but returns a 404 error even though the key was returned
+            // by the above function.
+            //Might need to update 2fauth server. May have changed since spec was written
+            val preference =
+                try {
+                    api.getUserPreference(firstPref.key)
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    null
+                }
+            assertNotNull(preference)
+            assertEquals(firstPref.key, preference.key)
+            assertEquals(firstPref.value, preference.value)
+
+            val success =
+                try {
+                    api.getUserPreference(fakePreferenceKey)
+                    false
+                }catch (e: Auth2FException404){
+                    //Expected exception
+                    true
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    false
+                }
+            assert(success)
+        }
+    }
+    @Test
+    fun testSettingApiRequests(){
+
+        val fakePreferenceKey = "ThisIsNotARealPreference"
+
+        runTest {
+
+            val settings =
+                try {
+                    api.getAllSettings()
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    null
+                }
+            assertNotNull(settings)
+            assertNotEquals(0, settings.size)
+
+            val firstPref = settings.firstOrNull()
+            assertNotNull(firstPref)
+
+            println("Getting pref: ${firstPref.key}")
+
+            //FIXME Below test not currently working
+            //Matches the spec, but returns html instead of expected json.
+            //Might need to update 2fauth server. Could be a new method
+            val setting =
+                try {
+                    api.getSetting(firstPref.key)
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    null
+                }
+            assertNotNull(setting)
+            assertEquals(firstPref.key, setting.key)
+            assertEquals(firstPref.value, setting.value)
+
+            val success =
+                try {
+                    api.getSetting(fakePreferenceKey)
+                    false
+                }catch (e: Auth2FException404){
+                    //Expected exception
+                    true
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    false
+                }
+            assert(success)
+        }
+    }
 
 }
