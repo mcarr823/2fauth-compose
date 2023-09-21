@@ -280,18 +280,27 @@ class Api(
 
     // user preference
 
-    // Get all user preferences
-    // List all preferences of the authenticated user.
+    /**
+     * List all preferences of the authenticated user.
+     * @return List of user preferences
+     * */
     suspend fun getAllUserPreferences(): List<UserPreference> =
         get("/api/v1/user/preferences").body<JsonArray>().let(UserPreference::parseMulti)
 
-    // Find user preference by name
-    // Returns a single preference of the authenticated user
+    /**
+     * Returns a single preference of the authenticated user
+     * @param key Name of the preference to retrieve
+     * @return Returns the preference with the specified name. Throws an Exception if not found
+     * */
     suspend fun getUserPreference(key: String): UserPreference =
         get("/api/v1/user/preferences/$key").body<JsonObject>().let(::UserPreference)
 
-    // Update user preference
-    // Updates a preference of the authenticated user.
+    /**
+     * Updates a preference of the authenticated user.
+     * @param key Name of the preference to update
+     * @param req Update user preference request object
+     * @return Updated user preference
+     * */
     suspend fun updateUserPreference(key: String, req: UpdateUserPreferenceRequest): UserPreference =
         put("/api/v1/user/preferences/$key"){
             setBody(req)
@@ -300,41 +309,56 @@ class Api(
 
     // settings (admin only)
 
-    // Get all settings
-    // List all application settings. This includes 2FAuth native settings and possible additional
-    // admin-defined settings.
-    // Settings endpoints are restricted to user with an Administrator role.
+    /**
+     * List all application settings. This includes 2FAuth native settings and possible additional
+     * admin-defined settings.
+     * Settings endpoints are restricted to user with an Administrator role.
+     * @return List of settings
+     * */
     suspend fun getAllSettings(): List<Setting> =
         get("/api/v1/settings").body<JsonArray>().let(Setting::parseMulti)
 
-    // Create custom setting
-    // Creates a new custom application setting. You are free to use this endpoint to store any
-    // data you need to administrate your own app.
-    // Settings endpoints are restricted to user with an Administrator role.
+     /**
+      * Creates a new custom application setting. You are free to use this endpoint to store any
+      * data you need to administrate your own app.
+      * Settings endpoints are restricted to user with an Administrator role.
+      * @param req Create setting request object
+      * @return Newly created Setting object
+      * */
     suspend fun createSetting(req: CreateSettingRequest): Setting =
         post("/api/v1/settings"){
             setBody(req)
         }.body<JsonObject>().let(::Setting)
 
-    // Find setting by name
-    // Returns a single application setting, whether it is a native 2FAuth setting or a custom
-    // setting.
-    // Settings endpoints are restricted to user with an Administrator role.
+    /**
+     * Returns a single application setting, whether it is a native 2FAuth setting or a custom
+     * setting.
+     * Settings endpoints are restricted to user with an Administrator role.
+     * @param key Name of the setting to retrieve
+     * @return Setting corresponding to the given name
+     * */
     suspend fun getSetting(key: String): Setting =
         get("/api/v1/settings/$key").body<JsonObject>().let(::Setting)
 
-    // Update setting
-    // Updates an application setting, whether it is a native 2FAuth setting or a custom setting.
-    // Will create the setting if it does not exist.
-    // Settings endpoints are restricted to user with an Administrator role.
+    /**
+     * Updates an application setting, whether it is a native 2FAuth setting or a custom setting.
+     * Will create the setting if it does not exist.
+     * Settings endpoints are restricted to user with an Administrator role.
+     * @param key Name of the setting to update
+     * @param req Update setting request object
+     * @return Updated setting object
+     * */
     suspend fun updateSetting(key: String, req: UpdateSettingRequest): Setting =
         put("/api/v1/settings/$key"){
             setBody(req)
         }.body<JsonObject>().let(::Setting)
 
-    // Delete custom setting
-    // Deletes a custom application setting.
-    // Settings endpoints are restricted to user with an Administrator role.
+    /**
+     * Deletes a custom application setting.
+     * Settings endpoints are restricted to user with an Administrator role.
+     * @param key Name of the setting to delete
+     * @return True if deleted successfully
+     * */
     suspend fun deleteSetting(key: String): Boolean =
         delete("/api/v1/settings/$key")
 
