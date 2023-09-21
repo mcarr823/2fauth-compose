@@ -23,6 +23,8 @@ import io.ktor.client.request.forms.formData
 import io.ktor.client.request.setBody
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonObject
 import java.io.File
 
 /**
@@ -281,19 +283,19 @@ class Api(
     // Get all user preferences
     // List all preferences of the authenticated user.
     suspend fun getAllUserPreferences(): List<UserPreference> =
-        get("/api/v1/user/preferences").body()
+        get("/api/v1/user/preferences").body<JsonArray>().let(UserPreference::parseMulti)
 
     // Find user preference by name
     // Returns a single preference of the authenticated user
     suspend fun getUserPreference(key: String): UserPreference =
-        get("/api/v1/user/preferences/$key").body()
+        get("/api/v1/user/preferences/$key").body<JsonObject>().let(::UserPreference)
 
     // Update user preference
     // Updates a preference of the authenticated user.
-    suspend fun updateUserPreference(key: String, req: UpdateUserPreferenceRequest) =
+    suspend fun updateUserPreference(key: String, req: UpdateUserPreferenceRequest): UserPreference =
         put("/api/v1/user/preferences/$key"){
             setBody(req)
-        }
+        }.body<JsonObject>().let(::UserPreference)
 
 
     // settings (admin only)
@@ -303,7 +305,7 @@ class Api(
     // admin-defined settings.
     // Settings endpoints are restricted to user with an Administrator role.
     suspend fun getAllSettings(): List<Setting> =
-        get("/api/v1/settings").body()
+        get("/api/v1/settings").body<JsonArray>().let(Setting::parseMulti)
 
     // Create custom setting
     // Creates a new custom application setting. You are free to use this endpoint to store any
@@ -312,14 +314,14 @@ class Api(
     suspend fun createSetting(req: CreateSettingRequest): Setting =
         post("/api/v1/settings"){
             setBody(req)
-        }.body()
+        }.body<JsonObject>().let(::Setting)
 
     // Find setting by name
     // Returns a single application setting, whether it is a native 2FAuth setting or a custom
     // setting.
     // Settings endpoints are restricted to user with an Administrator role.
     suspend fun getSetting(key: String): Setting =
-        get("/api/v1/settings/$key").body()
+        get("/api/v1/settings/$key").body<JsonObject>().let(::Setting)
 
     // Update setting
     // Updates an application setting, whether it is a native 2FAuth setting or a custom setting.
@@ -328,7 +330,7 @@ class Api(
     suspend fun updateSetting(key: String, req: UpdateSettingRequest): Setting =
         put("/api/v1/settings/$key"){
             setBody(req)
-        }.body()
+        }.body<JsonObject>().let(::Setting)
 
     // Delete custom setting
     // Deletes a custom application setting.
