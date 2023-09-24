@@ -55,6 +55,7 @@ dependencies {
     val room_version = "2.5.2"
     val ktorVersion = "2.3.4"
     val coroutinesVersion = "1.7.2"
+    val nav_version = "2.7.3"
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
@@ -71,6 +72,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
+    implementation("androidx.navigation:navigation-compose:$nav_version")
     testImplementation("junit:junit:4.13.2")
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-common"))
