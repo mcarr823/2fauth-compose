@@ -91,13 +91,11 @@ fun TestConnectionScreen(
 @Preview
 @Composable
 fun PreviewTestConnectionScreen(){
-    _2FAuthComposeTheme {
-        Surface {
-            TestConnectionScreen(
-                model = SetupScreenViewModel(),
-                enableBackButton = {},
-                success = {}
-            )
-        }
+    PreviewScreen {
+        TestConnectionScreen(
+            model = SetupScreenViewModel(),
+            enableBackButton = {},
+            success = {}
+        )
     }
 }

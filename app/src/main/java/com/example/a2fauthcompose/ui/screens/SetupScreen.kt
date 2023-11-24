@@ -88,11 +88,9 @@ fun SetupScreen(
 @Preview
 @Composable
 fun PreviewSetupScreen(){
-    _2FAuthComposeTheme {
-        Surface {
-            SetupScreen(
-                model = SetupScreenViewModel()
-            )
-        }
+    PreviewScreen {
+        SetupScreen(
+            model = SetupScreenViewModel()
+        )
     }
 }
