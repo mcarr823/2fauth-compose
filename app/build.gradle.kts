@@ -53,13 +53,13 @@ android {
 
 dependencies {
     val room_version = "2.6.0"
-    val ktorVersion = "2.3.4"
+    val ktorVersion = "2.3.6"
     val coroutinesVersion = "1.7.2"
     val nav_version = "2.7.5"
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.8.0")
+    implementation("androidx.activity:activity-compose:1.8.1")
     implementation(platform("androidx.compose:compose-bom:2023.10.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
