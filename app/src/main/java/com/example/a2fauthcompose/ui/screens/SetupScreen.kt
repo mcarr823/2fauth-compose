@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -46,7 +47,7 @@ fun SetupScreen(
             .padding(16.dp)
     ) {
 
-        TextField(
+        OutlinedTextField(
             value = endpoint,
             onValueChange = { endpoint = it },
             label = { Text("Domain") },
@@ -55,14 +56,16 @@ fun SetupScreen(
                 .padding(16.dp)
         )
         Text(
-            text = "Base URL or domain. eg. https://my.domain.com or my.domain.com",
+            text = "Base URL or domain.\n" +
+                    "eg. https://2fauth.mydomain.com\n" +
+                    "or 2fauth.mydomain.com",
             modifier = Modifier.padding(16.dp, 0.dp, 0.dp, 0.dp)
         )
         Spacer(
             modifier = Modifier.height(20.dp)
         )
 
-        TextField(
+        OutlinedTextField(
             value = tokenId,
             onValueChange = { tokenId = it },
             label = { Text("Access Token") },
@@ -70,6 +73,14 @@ fun SetupScreen(
                 .fillMaxWidth()
                 .padding(16.dp)
         )
+        Text(
+            text = "See the 'Settings > OAuth' section of your 2FAuth instance to generate personal access tokens",
+            modifier = Modifier.padding(16.dp, 0.dp, 0.dp, 0.dp)
+        )
+        Spacer(
+            modifier = Modifier.height(20.dp)
+        )
+
         ToggleRow(
             title = "Disable HTTPS verification",
             checkedState = httpsCheckedState,
