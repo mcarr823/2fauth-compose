@@ -10,6 +10,10 @@ import kotlinx.serialization.Serializable
  * But if you wanted to change only one of them, you would need to give the new icon a different
  * name, such as atlassian2.png instead.
  * */
+
+/**
+ * @param filename The icon filename
+ * */
 @Serializable
 data class CreateIconResponse(
     val filename: String

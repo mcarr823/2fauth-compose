@@ -7,6 +7,10 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 
+/**
+ * @param key Name of the setting. Max 128 chars
+ * @param value Value of the setting. String, boolean, or integer
+ * */
 class Setting(
     val key: String,
     val value: Any
@@ -24,6 +28,10 @@ class Setting(
 
 }
 
+/**
+ * @param key Name of the setting. Max 128 chars
+ * @param value Value of the setting. String, boolean, or integer
+ * */
 @Serializable
 class CreateSettingRequest(
     val key: String,
@@ -31,6 +39,9 @@ class CreateSettingRequest(
     val value: Any
 )
 
+/**
+ * @param value Value of the setting. String, boolean, or integer
+ * */
 @Serializable
 class UpdateSettingRequest(
     @Contextual

@@ -7,6 +7,10 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 
+/**
+ * @param key Name of the preference. Max 128 chars
+ * @param value Value of the preference. String, boolean, or integer
+ * */
 class UserPreference(
     val key: String,
     val value: Any
@@ -24,6 +28,9 @@ class UserPreference(
 
 }
 
+/**
+ * @param value Value of the preference. String, boolean, or integer
+ * */
 @Serializable
 data class UpdateUserPreferenceRequest(
     @Contextual
