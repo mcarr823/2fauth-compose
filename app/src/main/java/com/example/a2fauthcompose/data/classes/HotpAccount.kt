@@ -1,5 +1,6 @@
 package com.example.a2fauthcompose.data.classes
 
+import com.example.a2fauthcompose.data.entities.AccountEntity
 import dev.turingcomplete.kotlinonetimepassword.HmacOneTimePasswordConfig
 import dev.turingcomplete.kotlinonetimepassword.HmacOneTimePasswordGenerator
 
@@ -32,7 +33,7 @@ class HotpAccount(
     id, groupId, service, account, icon, digits, algorithm, secret
 ) {
 
-    constructor(a: Account, counter: Int) : this(
+    constructor(a: Account) : this(
         id = a.id,
         groupId = a.group_id,
         service = a.service,
@@ -41,7 +42,19 @@ class HotpAccount(
         digits = a.digits,
         algorithm = a.algorithm,
         secret = a.secret,
-        counter = counter
+        counter = a.counter!!
+    )
+
+    constructor(a: AccountEntity) : this(
+        id = a.id,
+        groupId = a.group_id,
+        service = a.service,
+        account = a.account,
+        icon = a.icon,
+        digits = a.digits,
+        algorithm = a.algorithm,
+        secret = a.secret,
+        counter = a.counter!!
     )
 
     override fun generate(secret: ByteArray): HotpToken {

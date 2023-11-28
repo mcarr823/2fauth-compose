@@ -1,5 +1,6 @@
 package com.example.a2fauthcompose.data.classes
 
+import com.example.a2fauthcompose.data.entities.AccountEntity
 import dev.turingcomplete.kotlinonetimepassword.HmacAlgorithm
 
 /**
@@ -32,6 +33,19 @@ abstract class AbstractAccount(
         "sha256" -> HmacAlgorithm.SHA256
         "sha512" -> HmacAlgorithm.SHA512
         else -> throw Exception("Unknown algorithm")
+    }
+
+    companion object{
+
+        const val TYPE_TOTP = "totp"
+        const val TYPE_HOTP = "hotp"
+
+        fun parse(a: AccountEntity): AbstractAccount = when(a.otp_type){
+            TYPE_TOTP -> TotpAccount(a)
+            TYPE_HOTP -> HotpAccount(a)
+            else -> throw Exception("Unknown account type")
+        }
+
     }
 
 }
