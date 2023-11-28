@@ -73,6 +73,7 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation("dev.turingcomplete:kotlin-onetimepassword:2.4.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-common"))
