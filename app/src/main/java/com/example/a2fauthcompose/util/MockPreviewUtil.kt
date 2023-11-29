@@ -21,6 +21,9 @@ object MockPreviewUtil {
         apiUrl = "",
         token = ""
     )
+    val api = Api(
+        httpUtil = httpUtil
+    )
     val tokenUtil = TokenUtil(
         httpUtil = httpUtil,
         useHttp = false
