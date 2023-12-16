@@ -28,17 +28,17 @@ import javax.net.ssl.X509TrustManager
 class HttpUtil(
     val apiUrl: String,
     val token: String,
-    val disableHttpsVerification: Boolean = false,
-    val testing: Boolean = false
+    val httpsVerification: Boolean = true,
+    val debugMode: Boolean = false
 ) {
 
     private val httpClient = HttpClient(CIO) {
-        if (testing) {
+        if (debugMode) {
             this.developmentMode = true
         }
         engine {
             this.requestTimeout = 60_000
-            if (disableHttpsVerification) {
+            if (!httpsVerification) {
                 this.https.trustManager = object : X509TrustManager {
                     override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
                     override fun checkClientTrusted(chain: Array<X509Certificate>?, authType: String?) = Unit
@@ -64,7 +64,7 @@ class HttpUtil(
             }
             this.setBodyCallback()
         }
-        if (testing) {
+        if (debugMode) {
             try {
                 println(httpResponse.bodyAsText())
             } catch (e: Exception) {

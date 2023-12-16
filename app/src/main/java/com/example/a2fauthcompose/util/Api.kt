@@ -38,9 +38,9 @@ class Api(
     constructor(
         apiUrl: String,
         token: String,
-        disableHttpsVerification: Boolean = false,
-        testing: Boolean = false
-    ) : this(HttpUtil(apiUrl, token, disableHttpsVerification, testing))
+        httpsVerification: Boolean = true,
+        debugMode: Boolean = false
+    ) : this(HttpUtil(apiUrl, token, httpsVerification, debugMode))
 
     private suspend fun get(path: String) =
         httpUtil.get(path)

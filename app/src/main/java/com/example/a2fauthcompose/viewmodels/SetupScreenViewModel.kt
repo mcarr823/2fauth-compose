@@ -7,8 +7,8 @@ class SetupScreenViewModel : ViewModel() {
 
     var endpoint: String = ""
     var token: String = ""
-    var disableHttpsVerification: Boolean = true
-    var debugMode: Boolean = true
+    var httpsVerification: Boolean = true
+    var debugMode: Boolean = false
 
     fun copyFromApi(api: Api){
         endpoint = api.httpUtil.apiUrl

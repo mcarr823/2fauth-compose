@@ -38,7 +38,7 @@ fun SetupScreen(
         mutableStateOf(TextFieldValue(model.token))
     }
     val (httpsCheckedState, httpsOnStateChange) = remember {
-        mutableStateOf(model.disableHttpsVerification)
+        mutableStateOf(model.httpsVerification)
     }
     val (debugCheckedState, debugOnStateChange) = remember {
         mutableStateOf(model.debugMode)
@@ -85,12 +85,12 @@ fun SetupScreen(
         )
 
         ToggleRow(
-            title = "Disable HTTPS verification",
+            title = "HTTPS verification",
             checkedState = httpsCheckedState,
             onStateChange = httpsOnStateChange
         )
         ToggleRow(
-            title = "Enable debug mode",
+            title = "Debug mode",
             checkedState = debugCheckedState,
             onStateChange = debugOnStateChange
         )
