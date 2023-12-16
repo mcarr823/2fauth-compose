@@ -23,6 +23,9 @@ import androidx.compose.ui.unit.dp
 import com.example.a2fauthcompose.data.exceptions.Auth2FException401
 import com.example.a2fauthcompose.data.exceptions.Auth2FException403
 import com.example.a2fauthcompose.ui.theme._2FAuthComposeTheme
+import com.example.a2fauthcompose.ui.topbar.TestConnectionFab
+import com.example.a2fauthcompose.ui.topbar.TestConnectionTopBarLeft
+import com.example.a2fauthcompose.ui.topbar.TestConnectionTopBarRight
 import com.example.a2fauthcompose.util.Api
 import com.example.a2fauthcompose.viewmodels.SetupScreenViewModel
 
@@ -91,7 +94,11 @@ fun TestConnectionScreen(
 @Preview
 @Composable
 fun PreviewTestConnectionScreen(){
-    PreviewScreen {
+    PreviewScreen(
+        backButton = { TestConnectionTopBarLeft() },
+        doneButton = { TestConnectionTopBarRight() },
+        fab = { TestConnectionFab() }
+    ) {
         TestConnectionScreen(
             model = SetupScreenViewModel(),
             enableBackButton = {},

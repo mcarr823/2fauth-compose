@@ -21,6 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.a2fauthcompose.ui.components.ToggleRow
 import com.example.a2fauthcompose.ui.theme._2FAuthComposeTheme
+import com.example.a2fauthcompose.ui.topbar.SetupScreenFab
+import com.example.a2fauthcompose.ui.topbar.SetupScreenTopBarLeft
+import com.example.a2fauthcompose.ui.topbar.SetupScreenTopBarRight
 import com.example.a2fauthcompose.viewmodels.SetupScreenViewModel
 
 @Composable
@@ -99,7 +102,11 @@ fun SetupScreen(
 @Preview
 @Composable
 fun PreviewSetupScreen(){
-    PreviewScreen {
+    PreviewScreen(
+        backButton = { SetupScreenTopBarLeft {} },
+        doneButton = { SetupScreenTopBarRight {} },
+        fab = { SetupScreenFab() }
+    ) {
         SetupScreen(
             model = SetupScreenViewModel()
         )

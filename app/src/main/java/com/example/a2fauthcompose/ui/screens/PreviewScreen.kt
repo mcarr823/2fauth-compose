@@ -13,6 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.a2fauthcompose.ui.theme._2FAuthComposeTheme
+import com.example.a2fauthcompose.ui.topbar.SetupScreenFab
+import com.example.a2fauthcompose.ui.topbar.SetupScreenTopBarLeft
+import com.example.a2fauthcompose.ui.topbar.SetupScreenTopBarRight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,7 +57,11 @@ fun PreviewScreen(
 @Preview
 @Composable
 fun PreviewPreviewScreen(){
-    PreviewScreen {
+    PreviewScreen(
+        backButton = { SetupScreenTopBarLeft {} },
+        doneButton = { SetupScreenTopBarRight {} },
+        fab = { SetupScreenFab() }
+    ) {
         Text(text = "Text")
     }
 }
