@@ -1,13 +1,19 @@
 package com.example.a2fauthcompose.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,6 +37,7 @@ fun SetupScreen(
     model: SetupScreenViewModel
 ) {
 
+    val scrollState = rememberScrollState()
     var endpoint by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue(model.endpoint))
     }
@@ -46,8 +53,9 @@ fun SetupScreen(
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(16.dp)
+            .verticalScroll(scrollState)
     ) {
 
         OutlinedTextField(
@@ -74,6 +82,7 @@ fun SetupScreen(
             label = { Text("Access Token") },
             modifier = Modifier
                 .fillMaxWidth()
+                .height(200.dp)
                 .padding(16.dp)
         )
         Text(
@@ -93,6 +102,9 @@ fun SetupScreen(
             title = "Debug mode",
             checkedState = debugCheckedState,
             onStateChange = debugOnStateChange
+        )
+        Spacer(
+            modifier = Modifier.height(20.dp)
         )
 
     }
