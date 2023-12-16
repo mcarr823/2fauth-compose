@@ -16,6 +16,15 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        val apiDomain = properties.getOrDefault("API_DOMAIN", "") as String
+        val apiToken = properties.getOrDefault("API_TOKEN", "") as String
+        val apiHttpsVerification = properties.getOrDefault("API_HTTPS_VERIFICATION", "true") as String
+        val apiDebugMode = properties.getOrDefault("API_DEBUG_MODE", "false") as String
+
+        buildConfigField("String", "API_DOMAIN", "\"$apiDomain\"")
+        buildConfigField("String", "API_TOKEN", "\"$apiToken\"")
+        buildConfigField("Boolean", "API_HTTPS_VERIFICATION", apiHttpsVerification)
+        buildConfigField("Boolean", "API_DEBUG_MODE", apiDebugMode)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -40,6 +49,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.4"
