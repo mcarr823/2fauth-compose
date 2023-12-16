@@ -25,6 +25,14 @@ android {
         buildConfigField("String", "API_TOKEN", "\"$apiToken\"")
         buildConfigField("Boolean", "API_HTTPS_VERIFICATION", apiHttpsVerification)
         buildConfigField("Boolean", "API_DEBUG_MODE", apiDebugMode)
+
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+            arg("room.incremental", "true")
+            arg("room.expandProjection", "true")
+            arg("room.generateKotlin", "true")
+        }
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
