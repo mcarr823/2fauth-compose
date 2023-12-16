@@ -39,10 +39,12 @@ abstract class AbstractAccount(
 
         const val TYPE_TOTP = "totp"
         const val TYPE_HOTP = "hotp"
+        const val TYPE_STEAM = "steamtotp"
 
         fun parse(a: AccountEntity): AbstractAccount = when(a.otp_type){
             TYPE_TOTP -> TotpAccount(a)
             TYPE_HOTP -> HotpAccount(a)
+            TYPE_STEAM -> TotpAccount(a) //TODO: update this
             else -> throw Exception("Unknown account type")
         }
 
