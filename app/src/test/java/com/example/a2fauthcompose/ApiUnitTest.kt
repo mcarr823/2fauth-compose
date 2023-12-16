@@ -18,10 +18,10 @@ import kotlin.test.assertNotNull
 class ApiUnitTest {
 
     private val api = Api(
-        apiUrl = "https://2fa.my.example.domain",
-        token = "xxxxxxxxxx",
-        disableHttpsVerification = true,
-        testing = true
+        apiUrl = BuildConfig.API_DOMAIN,
+        token = BuildConfig.API_TOKEN,
+        httpsVerification = BuildConfig.API_HTTPS_VERIFICATION,
+        debugMode = BuildConfig.API_DEBUG_MODE
     )
 
 
