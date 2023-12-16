@@ -33,7 +33,7 @@ import com.example.a2fauthcompose.viewmodels.SetupScreenViewModel
 fun TestConnectionScreen(
     model: SetupScreenViewModel,
     enableBackButton: (Boolean) -> Unit,
-    success: (Api) -> Unit
+    success: () -> Unit
 ) {
 
     val primaryColor = MaterialTheme.colorScheme.onBackground
@@ -64,7 +64,7 @@ fun TestConnectionScreen(
         val api = Api(model)
         try {
             api.getAll2FaAccounts(withSecret = false)
-            success(api)
+            success()
         } catch (e: Auth2FException401){
             e.printStackTrace()
             messageColor = Color.Red
