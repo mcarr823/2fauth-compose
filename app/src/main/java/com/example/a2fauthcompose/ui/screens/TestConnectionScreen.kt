@@ -61,12 +61,7 @@ fun TestConnectionScreen(
     }
 
     LaunchedEffect(Unit){
-        val api = Api(
-            apiUrl = model.endpoint,
-            token = model.token,
-            disableHttpsVerification = model.disableHttpsVerification,
-            testing = model.debugMode
-        )
+        val api = Api(model)
         try {
             api.getAll2FaAccounts(withSecret = false)
             success(api)

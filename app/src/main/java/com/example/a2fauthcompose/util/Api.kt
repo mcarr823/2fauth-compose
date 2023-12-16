@@ -17,6 +17,7 @@ import com.example.a2fauthcompose.data.classes.UpdateGroupRequest
 import com.example.a2fauthcompose.data.classes.UpdateSettingRequest
 import com.example.a2fauthcompose.data.classes.UpdateUserPreferenceRequest
 import com.example.a2fauthcompose.data.classes.UserPreference
+import com.example.a2fauthcompose.viewmodels.SetupScreenViewModel
 import io.ktor.client.call.body
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.forms.formData
@@ -34,6 +35,13 @@ import java.io.File
 class Api(
     val httpUtil: HttpUtil
 ) {
+
+    constructor(model: SetupScreenViewModel) : this(
+        apiUrl = model.endpoint,
+        token = model.token,
+        httpsVerification = model.httpsVerification,
+        debugMode = model.debugMode
+    )
 
     constructor(
         apiUrl: String,
