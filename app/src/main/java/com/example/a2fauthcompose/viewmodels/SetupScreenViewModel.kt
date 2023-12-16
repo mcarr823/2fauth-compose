@@ -26,6 +26,10 @@ class SetupScreenViewModel : ViewModel() {
     var httpsVerification: Boolean = true
     var debugMode: Boolean = false
 
+    //If the endpoint or the token haven't been specified,
+    //consider the viewmodel to be empty/not loaded
+    fun isEmpty(): Boolean = endpoint == "" || token == ""
+
     //Sync read
     suspend fun readFromDataStore(dataStore: DataStore<Preferences>){
         dataStore.data.first().let {
