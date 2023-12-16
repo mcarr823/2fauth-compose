@@ -1,14 +1,18 @@
 package com.example.a2fauthcompose.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,13 +36,14 @@ import com.example.a2fauthcompose.viewmodels.SetupScreenViewModel
 @Composable
 fun TestConnectionScreen(
     model: SetupScreenViewModel,
-    enableBackButton: (Boolean) -> Unit,
+    cancel: () -> Unit,
     success: () -> Unit
 ) {
 
     val primaryColor = MaterialTheme.colorScheme.onBackground
     var message by remember { mutableStateOf("Checking connection...") }
     var messageColor by remember { mutableStateOf(primaryColor) }
+    var showButtons by remember { mutableStateOf(false) }
 
     BoxWithConstraints(
         contentAlignment = Alignment.Center,
@@ -57,6 +62,23 @@ fun TestConnectionScreen(
                 text = message,
                 color = messageColor
             )
+            if (showButtons){
+                Spacer(
+                    modifier = Modifier.height(20.dp)
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    TextButton(onClick = cancel) {
+                        Text(text = "Change Settings")
+                    }
+                    TextButton(onClick = success) {
+                        Text(text = "Save Anyway")
+                    }
+                }
+            }
         }
     }
 
@@ -70,17 +92,17 @@ fun TestConnectionScreen(
             messageColor = Color.Red
             message = "Connection succeeded, but authentication failed.\n" +
                     "Please check authentication token"
-            enableBackButton(true)
+            showButtons = true
         } catch (e: Auth2FException403){
             e.printStackTrace()
             messageColor = Color.Red
             message = "Access forbidden. Check URL on setup page"
-            enableBackButton(true)
+            showButtons = true
         } catch (e: Exception) {
             e.printStackTrace()
             messageColor = Color.Red
             message = e.localizedMessage ?: "Connection attempt failed"
-            enableBackButton(true)
+            showButtons = true
         }
     }
 
@@ -96,7 +118,7 @@ fun PreviewTestConnectionScreen(){
     ) {
         TestConnectionScreen(
             model = SetupScreenViewModel(),
-            enableBackButton = {},
+            cancel = {},
             success = {}
         )
     }
