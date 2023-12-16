@@ -24,6 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.example.a2fauthcompose.data.exceptions.Auth2FException401
 import com.example.a2fauthcompose.data.exceptions.Auth2FException403
 import com.example.a2fauthcompose.ui.theme._2FAuthComposeTheme
@@ -36,6 +38,7 @@ import com.example.a2fauthcompose.viewmodels.SetupScreenViewModel
 @Composable
 fun TestConnectionScreen(
     model: SetupScreenViewModel,
+    dataStore: DataStore<Preferences>?,
     cancel: () -> Unit,
     success: () -> Unit
 ) {
@@ -86,6 +89,7 @@ fun TestConnectionScreen(
         val api = Api(model)
         try {
             api.getAll2FaAccounts(withSecret = false)
+            dataStore?.let { model.writeToDataStore(it) }
             success()
         } catch (e: Auth2FException401){
             e.printStackTrace()
@@ -118,6 +122,7 @@ fun PreviewTestConnectionScreen(){
     ) {
         TestConnectionScreen(
             model = SetupScreenViewModel(),
+            dataStore = null,
             cancel = {},
             success = {}
         )
