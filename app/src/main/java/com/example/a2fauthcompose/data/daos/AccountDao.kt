@@ -10,6 +10,9 @@ import com.example.a2fauthcompose.data.entities.AccountEntity
 @Dao
 interface AccountDao {
 
+    @Query("SELECT * FROM `${AccountEntity.TABLE_NAME}` ORDER BY `${AccountEntity.ID}`")
+    fun getAll(): List<AccountEntity>
+
     @Insert
     fun insert(row: AccountEntity)
 
