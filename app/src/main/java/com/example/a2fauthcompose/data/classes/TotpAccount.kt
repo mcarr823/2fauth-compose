@@ -1,6 +1,7 @@
 package com.example.a2fauthcompose.data.classes
 
 import com.example.a2fauthcompose.data.entities.AccountEntity
+import dev.turingcomplete.kotlinonetimepassword.GoogleAuthenticator
 import dev.turingcomplete.kotlinonetimepassword.TimeBasedOneTimePasswordConfig
 import dev.turingcomplete.kotlinonetimepassword.TimeBasedOneTimePasswordGenerator
 import java.util.concurrent.TimeUnit
@@ -58,7 +59,7 @@ class TotpAccount(
         period = a.period!!
     )
 
-    override fun generate(secret: ByteArray): TotpToken {
+    override fun generate(secret: ByteArray, isGoogleAuthenticator: Boolean): TotpToken {
         val config = TimeBasedOneTimePasswordConfig(
             codeDigits = digits,
             hmacAlgorithm = getAlgorithm(),
@@ -69,7 +70,13 @@ class TotpAccount(
             secret,
             config
         )
-        val password = timeBasedOneTimePasswordGenerator.generate()
+        val timestamp = System.currentTimeMillis()
+        val password =
+            if (isGoogleAuthenticator){
+                GoogleAuthenticator(secret).generate()
+            }else {
+                timeBasedOneTimePasswordGenerator.generate()
+            }
         val counter = timeBasedOneTimePasswordGenerator.counter()
         //The start of next time slot minus 1ms
         val endEpochMillis = timeBasedOneTimePasswordGenerator.timeslotStart(counter+1)-1

@@ -1,6 +1,7 @@
 package com.example.a2fauthcompose.data.classes
 
 import com.example.a2fauthcompose.data.entities.AccountEntity
+import dev.turingcomplete.kotlinonetimepassword.GoogleAuthenticator
 import dev.turingcomplete.kotlinonetimepassword.HmacOneTimePasswordConfig
 import dev.turingcomplete.kotlinonetimepassword.HmacOneTimePasswordGenerator
 
@@ -57,7 +58,7 @@ class HotpAccount(
         counter = a.counter!!
     )
 
-    override fun generate(secret: ByteArray): HotpToken {
+    override fun generate(secret: ByteArray, isGoogleAuthenticator: Boolean): HotpToken {
         val config = HmacOneTimePasswordConfig(
             codeDigits = digits,
             hmacAlgorithm = getAlgorithm()

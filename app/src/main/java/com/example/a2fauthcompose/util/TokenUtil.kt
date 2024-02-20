@@ -32,7 +32,14 @@ class TokenUtil(
         }
 
         val secret = account.secret?.toByteArray() ?: throw Exception("No secret")
-        return account.generate(secret)
+
+        // Hard-code this to true for now
+        val isGoogleAuthenticator = true
+
+        return account.generate(
+            secret = secret,
+            isGoogleAuthenticator = isGoogleAuthenticator
+        )
 
     }
 
