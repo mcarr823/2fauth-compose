@@ -41,8 +41,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun OtpListScreen(
     model: OtpListScreenViewModel,
-    api: Api,
-    generateTokensOnline: Boolean
+    api: Api
 ) {
 
     var isRefreshing by remember { mutableStateOf(false) }
@@ -56,7 +55,7 @@ fun OtpListScreen(
     }
     val pullRefreshState = rememberPullRefreshState(isRefreshing, ::refresh)
     val tokenUtil = remember {
-        TokenUtil(api.httpUtil, generateTokensOnline)
+        TokenUtil(api.httpUtil)
     }
     val accounts by remember {
         mutableStateOf(model.accounts)
@@ -120,8 +119,7 @@ fun PreviewOtpListScreen(){
     ) {
         OtpListScreen(
             model = model,
-            api = api,
-            generateTokensOnline = false
+            api = api
         )
     }
 }

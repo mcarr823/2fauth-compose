@@ -14,15 +14,16 @@ import dev.turingcomplete.kotlinonetimepassword.TimeBasedOneTimePasswordGenerato
 import java.util.concurrent.TimeUnit
 
 class TokenUtil(
-    httpUtil: HttpUtil,
-    private val useHttp: Boolean
+    httpUtil: HttpUtil
 ) {
 
     private val api = Api(httpUtil)
 
     suspend fun getOtp(account: AbstractAccount): AbstractToken {
 
-        if (useHttp) {
+        if (account.secret != null){
+            return account.generate() ?: throw Exception("Failed to generate")
+        } else {
             val otp = api.getOtp(account.id)
             return when (otp.otp_type){
                 AbstractToken.TYPE_TOTP -> TotpToken(otp)
@@ -30,16 +31,6 @@ class TokenUtil(
                 else -> throw Exception("Unknown token")
             }
         }
-
-        val secret = account.secret?.toByteArray() ?: throw Exception("No secret")
-
-        // Hard-code this to true for now
-        val isGoogleAuthenticator = true
-
-        return account.generate(
-            secret = secret,
-            isGoogleAuthenticator = isGoogleAuthenticator
-        )
 
     }
 

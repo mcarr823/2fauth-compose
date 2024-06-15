@@ -23,8 +23,7 @@ class TokenUtilUnitTest {
     @Test
     fun testOffline(){
         val tokenUtil = TokenUtil(
-            httpUtil = api.httpUtil,
-            useHttp = false
+            httpUtil = api.httpUtil
         )
 
         runTest {

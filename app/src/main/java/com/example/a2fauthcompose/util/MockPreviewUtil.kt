@@ -25,8 +25,7 @@ object MockPreviewUtil {
         httpUtil = httpUtil
     )
     val tokenUtil = TokenUtil(
-        httpUtil = httpUtil,
-        useHttp = false
+        httpUtil = httpUtil
     )
     val accountEntities = ArrayList<AccountEntity>().apply {
         (0..20).map {
