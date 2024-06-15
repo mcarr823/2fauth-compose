@@ -80,7 +80,8 @@ class TotpAccount(
         val counter = timeBasedOneTimePasswordGenerator.counter()
         //The start of next time slot minus 1ms
         val endEpochMillis = timeBasedOneTimePasswordGenerator.timeslotStart(counter+1)-1
-        return TotpToken(password = password, expiresAt = endEpochMillis)
+        val epochSeconds = TimeUnit.MILLISECONDS.toSeconds(endEpochMillis)
+        return TotpToken(password = password, expiresAt = epochSeconds, period = period)
     }
 
 }

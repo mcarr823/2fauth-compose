@@ -59,7 +59,7 @@ fun TotpCard(
 @Composable
 fun PreviewTotpCard(){
     val name = "MyService"
-    val otp = TotpToken("123456", -1L)
+    val otp = TotpToken("123456", -1L, 30)
     PreviewComponent{
         TotpCard(
             name = name,
