@@ -40,27 +40,23 @@ class TokenUtilUnitTest {
                 }
             assertNotNull(account, "Failed to retrieve account with ID of 0")
 
-            val acc = account ?: throw Exception("Null account")
-
             val otp =
                 try{
-                    api.getOtp(acc.id)
+                    api.getOtp(account.id)
                 }catch (e: Exception){
                     //e.printStackTrace()
                     null
                 }
             assertNotNull(otp, "Failed to retrieve OTP")
 
-            val remoteToken = otp ?: throw Exception("Null token")
-
-            val totpAccount = TotpAccount(acc)
+            val totpAccount = TotpAccount(account)
             val localToken = tokenUtil.getOtp(totpAccount)
             assertTrue(localToken is TotpToken, "Token is not a TotpToken")
 
             assertEquals(
                 localToken.password,
-                remoteToken.password,
-                "Tokens do not match. ${localToken.password} != ${remoteToken.password}"
+                otp.password,
+                "Tokens do not match. ${localToken.password} != ${otp.password}"
             )
         }
     }
