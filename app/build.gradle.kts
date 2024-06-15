@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.a2fauthcompose"
+    namespace = "dev.mcarr.a2fauthcompose"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.a2fauthcompose"
+        applicationId = "dev.mcarr.a2fauthcompose"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
