@@ -28,6 +28,16 @@ abstract class AbstractAccount(
 
     abstract fun generate(secret: ByteArray, isGoogleAuthenticator: Boolean): AbstractToken
 
+    fun generate(isGoogleAuthenticator: Boolean): AbstractToken? {
+        val secretBytes = secret?.toByteArray() ?: return null
+        return this.generate(
+            secret = secretBytes,
+            isGoogleAuthenticator = isGoogleAuthenticator
+        )
+    }
+
+    fun generate(): AbstractToken? = generate(isGoogleAuthenticator = true)
+
     fun getAlgorithm(): HmacAlgorithm = when(algorithm){
         "sha1" -> HmacAlgorithm.SHA1
         "sha256" -> HmacAlgorithm.SHA256
