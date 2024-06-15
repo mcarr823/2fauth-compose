@@ -40,15 +40,25 @@ class Api(
         apiUrl = model.endpoint,
         token = model.token,
         httpsVerification = model.httpsVerification,
-        debugMode = model.debugMode
+        debugMode = model.debugMode,
+        storeSecrets = model.storeSecrets
     )
 
     constructor(
         apiUrl: String,
         token: String,
         httpsVerification: Boolean = true,
-        debugMode: Boolean = false
-    ) : this(HttpUtil(apiUrl, token, httpsVerification, debugMode))
+        debugMode: Boolean = false,
+        storeSecrets: Boolean = false
+    ) : this(
+        httpUtil = HttpUtil(
+            apiUrl = apiUrl,
+            token = token,
+            httpsVerification = httpsVerification,
+            debugMode = debugMode,
+            storeSecrets = storeSecrets
+        )
+    )
 
     private suspend fun get(path: String) =
         httpUtil.get(path)
@@ -71,7 +81,7 @@ class Api(
      * @param withSecret If true, include the secret of the 2fa credential in the response
      * @return List of 2fa accounts
      * */
-    suspend fun getAll2FaAccounts(withSecret: Boolean): List<Account> =
+    suspend fun getAll2FaAccounts(withSecret: Boolean = httpUtil.storeSecrets): List<Account> =
         get("/api/v1/twofaccounts?withSecret=$withSecret").body()
 
      /**
@@ -98,7 +108,7 @@ class Api(
      * @param withSecret If true, include the secret of the 2fa credential in the response
      * @return 2fa account with the given ID
      * */
-    suspend fun get2FaAccount(id: Int, withSecret: Boolean): Account =
+    suspend fun get2FaAccount(id: Int, withSecret: Boolean = httpUtil.storeSecrets): Account =
         get("/api/v1/twofaccounts/$id?withSecret=$withSecret").body()
 
     /**
@@ -218,7 +228,7 @@ class Api(
      * @param withSecret If true, include account secrets in the response
      * @return List of accounts belonging to the specified group
      * */
-    suspend fun get2FaAccountsByGroupId(groupId: Int, withSecret: Boolean): List<Account> =
+    suspend fun get2FaAccountsByGroupId(groupId: Int, withSecret: Boolean = httpUtil.storeSecrets): List<Account> =
         get("/api/v1/groups/$groupId/twofaccounts?withSecret=$withSecret").body()
 
 

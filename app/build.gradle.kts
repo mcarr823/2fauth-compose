@@ -20,11 +20,13 @@ android {
         val apiToken = properties.getOrDefault("API_TOKEN", "") as String
         val apiHttpsVerification = properties.getOrDefault("API_HTTPS_VERIFICATION", "true") as String
         val apiDebugMode = properties.getOrDefault("API_DEBUG_MODE", "false") as String
+        val apiStoreSecrets = properties.getOrDefault("API_STORE_SECRETS", "false") as String
 
         buildConfigField("String", "API_DOMAIN", "\"$apiDomain\"")
         buildConfigField("String", "API_TOKEN", "\"$apiToken\"")
         buildConfigField("Boolean", "API_HTTPS_VERIFICATION", apiHttpsVerification)
         buildConfigField("Boolean", "API_DEBUG_MODE", apiDebugMode)
+        buildConfigField("Boolean", "API_STORE_SECRETS", apiStoreSecrets)
 
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")

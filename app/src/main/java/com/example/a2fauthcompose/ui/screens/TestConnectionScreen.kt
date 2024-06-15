@@ -88,7 +88,7 @@ fun TestConnectionScreen(
     LaunchedEffect(Unit){
         val api = Api(model)
         try {
-            api.getAll2FaAccounts(withSecret = false)
+            api.getAll2FaAccounts()
             dataStore?.let { model.writeToDataStore(it) }
             success()
         } catch (e: Auth2FException401){

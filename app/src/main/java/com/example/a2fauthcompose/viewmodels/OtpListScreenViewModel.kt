@@ -21,7 +21,7 @@ class OtpListScreenViewModel : ViewModel() {
      * */
     suspend fun refresh(api: Api): String =
         try {
-            val newAccounts = api.getAll2FaAccounts(withSecret = false).map { AccountEntity(it) }
+            val newAccounts = api.getAll2FaAccounts().map { AccountEntity(it) }
             accounts.clear()
             newAccounts.map(AbstractAccount::parse).let(accounts::addAll)
             //val db = AppDb.getDatabase()

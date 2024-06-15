@@ -29,7 +29,8 @@ class HttpUtil(
     val apiUrl: String,
     val token: String,
     val httpsVerification: Boolean = true,
-    val debugMode: Boolean = false
+    val debugMode: Boolean = false,
+    val storeSecrets: Boolean = false
 ) {
 
     private val httpClient = HttpClient(CIO) {

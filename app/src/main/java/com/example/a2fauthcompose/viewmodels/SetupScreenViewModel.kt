@@ -20,11 +20,13 @@ class SetupScreenViewModel : ViewModel() {
     val keyToken = stringPreferencesKey("KEY_TOKEN")
     val keyHttps = booleanPreferencesKey("KEY_HTTPS")
     val keyDebug = booleanPreferencesKey("KEY_DEBUG")
+    val keyStoreSecrets = booleanPreferencesKey("KEY_STORE_SECRETS")
 
     var endpoint: String = ""
     var token: String = ""
     var httpsVerification: Boolean = true
     var debugMode: Boolean = false
+    var storeSecrets: Boolean = false
 
     //If the endpoint or the token haven't been specified,
     //consider the viewmodel to be empty/not loaded
@@ -37,6 +39,7 @@ class SetupScreenViewModel : ViewModel() {
             token = it[keyToken] ?: BuildConfig.API_TOKEN
             httpsVerification = it[keyHttps] ?: BuildConfig.API_HTTPS_VERIFICATION
             debugMode = it[keyDebug] ?: BuildConfig.API_DEBUG_MODE
+            storeSecrets = it[keyStoreSecrets] ?: BuildConfig.API_STORE_SECRETS
         }
     }
 
@@ -47,6 +50,7 @@ class SetupScreenViewModel : ViewModel() {
             it[keyToken] = token
             it[keyHttps] = httpsVerification
             it[keyDebug] = debugMode
+            it[keyStoreSecrets] = storeSecrets
         }
     }
 

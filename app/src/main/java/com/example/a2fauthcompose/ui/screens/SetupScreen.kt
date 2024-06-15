@@ -50,6 +50,9 @@ fun SetupScreen(
     val (debugCheckedState, debugOnStateChange) = remember {
         mutableStateOf(model.debugMode)
     }
+    val (storeSecretsCheckedState, storeSecretsOnStateChange) = remember {
+        mutableStateOf(model.storeSecrets)
+    }
 
     Column(
         modifier = Modifier
@@ -102,6 +105,11 @@ fun SetupScreen(
             title = "Debug mode",
             checkedState = debugCheckedState,
             onStateChange = debugOnStateChange
+        )
+        ToggleRow(
+            title = "Store secrets locally (allows offline token generation)",
+            checkedState = storeSecretsCheckedState,
+            onStateChange = storeSecretsOnStateChange
         )
         Spacer(
             modifier = Modifier.height(20.dp)
