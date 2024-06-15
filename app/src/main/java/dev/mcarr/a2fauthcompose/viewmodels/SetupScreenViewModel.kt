@@ -32,6 +32,15 @@ class SetupScreenViewModel : ViewModel() {
     //consider the viewmodel to be empty/not loaded
     fun isEmpty(): Boolean = endpoint == "" || token == ""
 
+    //Reset the viewmodel to its default values
+    fun reset(){
+        endpoint = ""
+        token = ""
+        httpsVerification = true
+        debugMode = false
+        storeSecrets = false
+    }
+
     //Sync read
     suspend fun readFromDataStore(dataStore: DataStore<Preferences>){
         dataStore.data.first().let {
