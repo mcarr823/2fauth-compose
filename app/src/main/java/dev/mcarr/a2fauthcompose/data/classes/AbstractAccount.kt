@@ -1,6 +1,7 @@
 package dev.mcarr.a2fauthcompose.data.classes
 
 import dev.mcarr.a2fauthcompose.data.entities.AccountEntity
+import dev.mcarr.a2fauthcompose.viewmodels.AbstractTokenViewModel
 import dev.turingcomplete.kotlinonetimepassword.HmacAlgorithm
 
 /**
@@ -44,6 +45,8 @@ abstract class AbstractAccount<T : AbstractToken>(
         "sha512" -> HmacAlgorithm.SHA512
         else -> throw Exception("Unknown algorithm")
     }
+
+    fun toViewModel() = AbstractTokenViewModel<T>(this)
 
     companion object{
 
