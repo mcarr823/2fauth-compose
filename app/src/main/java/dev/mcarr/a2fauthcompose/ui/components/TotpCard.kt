@@ -74,7 +74,7 @@ fun TotpCard(
         }
     }
 
-    LaunchedEffect(key1 = Unit, block = {
+    LaunchedEffect(key1 = otp, block = {
 
         // Number of milliseconds to wait between each update
         val step = 100L

@@ -1,5 +1,6 @@
 package dev.mcarr.a2fauthcompose.ui.components
 
+import android.util.Log
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,24 +15,14 @@ import dev.mcarr.a2fauthcompose.util.TokenUtil
 @Composable
 fun LoadingOtpCard(
     name: String,
-    util: TokenUtil,
-    onSuccess: (AbstractToken) -> Unit,
-    onError: (Exception) -> Unit
     account: AbstractAccount<*>,
+    util: TokenUtil
 ) {
 
     PaddedCard {
         Text(text = name)
         Text(text = "Generating...")
     }
-
-    LaunchedEffect(key1 = Unit, block = {
-        try {
-            util.getOtp(account).let(onSuccess)
-        }catch (e: Exception){
-            onError(e)
-        }
-    })
 
 }
 
@@ -44,9 +35,7 @@ fun PreviewLoadingOtpCard(){
         LoadingOtpCard(
             name = "ServiceName",
             account = account,
-            util = util,
-            onSuccess = {},
-            onError = {}
+            util = util
         )
     }
 }

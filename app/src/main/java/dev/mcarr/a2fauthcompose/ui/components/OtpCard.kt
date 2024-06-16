@@ -34,10 +34,16 @@ fun <T : AbstractToken>OtpCard(
         model.otp
     }
     var generating: Boolean by remember {
-        mutableStateOf(false)
+        mutableStateOf(otp == null)
     }
 
-    if (otp is HotpToken){
+    if (otp == null || generating){
+        LoadingOtpCard(
+            name = name,
+            account = account,
+            util = util
+        )
+    }else if (otp is HotpToken){
         HotpCard(name = name, otp = otp as HotpToken)
     }else if (otp is TotpToken){
         TotpCard(
@@ -45,20 +51,7 @@ fun <T : AbstractToken>OtpCard(
             otp = otp as TotpToken,
             expired = {
                 Log.i("OtpCard", "Totp expired")
-                otp = account.generate()
-            }
-        )
-    }else if (generating){
-        LoadingOtpCard(
-            name = name,
-            account = account,
-            util = util,
-            onSuccess = {
-                Log.i("OtpCard", "Loading success")
-                otp = it
-            },
-            onError = {
-                //TODO: show error
+                generating = true
             }
         )
     }else{
@@ -70,6 +63,22 @@ fun <T : AbstractToken>OtpCard(
             }
         )
     }
+
+    LaunchedEffect(key1 = generating, block = {
+        if (generating) {
+            Log.i("LoadingOtpCard", "Launched effect")
+            try {
+                model.otp.value = util.getOtp<T>(account) as T
+                Log.i("LoadingOtpCard", "Success")
+            } catch (e: Exception) {
+                Log.i("LoadingOtpCard", "Exception")
+                e.printStackTrace()
+                //TODO: show error
+            }
+            Log.i("LoadingOtpCard", "Finished")
+            generating = false
+        }
+    })
 
 }
 
