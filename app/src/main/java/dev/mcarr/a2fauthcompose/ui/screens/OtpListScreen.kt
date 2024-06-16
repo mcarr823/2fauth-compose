@@ -85,8 +85,9 @@ fun OtpListScreen(
                             (account.service != null && account.service.contains(textState.value.text, ignoreCase = true)) ||
                             account.account.contains(textState.value.text, ignoreCase = true)
                         ) {
+                            val accountModel = account.toViewModel()
                             OtpCard(
-                                account = account,
+                                model = accountModel,
                                 util = tokenUtil
                             )
                         }

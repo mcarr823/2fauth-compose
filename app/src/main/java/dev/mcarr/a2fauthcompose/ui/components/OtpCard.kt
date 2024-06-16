@@ -2,35 +2,36 @@ package dev.mcarr.a2fauthcompose.ui.components
 
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
-import dev.mcarr.a2fauthcompose.data.classes.AbstractAccount
 import dev.mcarr.a2fauthcompose.data.classes.AbstractToken
-import dev.mcarr.a2fauthcompose.data.classes.HotpAccount
 import dev.mcarr.a2fauthcompose.data.classes.HotpToken
-import dev.mcarr.a2fauthcompose.data.classes.TotpAccount
 import dev.mcarr.a2fauthcompose.data.classes.TotpToken
 import dev.mcarr.a2fauthcompose.util.MockPreviewUtil
 import dev.mcarr.a2fauthcompose.util.TokenUtil
-import dev.mcarr.a2fauthcompose.viewmodels.TotpTokenViewModel
+import dev.mcarr.a2fauthcompose.viewmodels.AbstractTokenViewModel
 
 @Composable
-    account: AbstractAccount,
 fun <T : AbstractToken>OtpCard(
+    model: AbstractTokenViewModel<T>,
     util: TokenUtil
 ) {
 
+    val account = remember {
+        model.account
+    }
     val name = remember {
         if (account.service != null)
             "${account.service} (${account.account})"
         else
             account.account
     }
-        mutableStateOf(account.generate())
     var otp: T? by remember {
+        model.otp
     }
     var generating: Boolean by remember {
         mutableStateOf(false)
@@ -77,9 +78,10 @@ fun <T : AbstractToken>OtpCard(
 fun PreviewOtpCard(){
     val account = MockPreviewUtil.totpAccount
     val util = MockPreviewUtil.tokenUtil
+    val model = AbstractTokenViewModel<TotpToken>(account)
     PreviewComponent {
         OtpCard(
-            account = account,
+            model = model,
             util = util
         )
     }
