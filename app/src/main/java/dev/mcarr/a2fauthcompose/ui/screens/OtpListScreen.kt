@@ -109,7 +109,9 @@ fun OtpListScreen(
 @Composable
 fun PreviewOtpListScreen(){
     val model = OtpListScreenViewModel()
-    model.accounts = MockPreviewUtil.accountEntities.map(AbstractAccount::parse).toMutableList()
+    model.accounts = MockPreviewUtil.accountEntities
+        .map{ it.toAbstractAccount() }
+        .toMutableList()
     val api = MockPreviewUtil.api
     val util = MockPreviewUtil.tokenUtil
     PreviewScreen(

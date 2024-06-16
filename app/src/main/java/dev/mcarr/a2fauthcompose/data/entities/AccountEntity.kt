@@ -3,7 +3,10 @@ package dev.mcarr.a2fauthcompose.data.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import dev.mcarr.a2fauthcompose.data.classes.AbstractAccount
 import dev.mcarr.a2fauthcompose.data.classes.Account
+import dev.mcarr.a2fauthcompose.data.classes.HotpAccount
+import dev.mcarr.a2fauthcompose.data.classes.TotpAccount
 
 @Entity(tableName = AccountEntity.TABLE_NAME)
 class AccountEntity(
@@ -59,6 +62,15 @@ class AccountEntity(
         const val SECRET = "ae_secret"
         const val PERIOD = "ae_period"
         const val COUNTER = "ae_counter"
+    }
+
+    fun toAbstractAccount(): AbstractAccount<*>{
+        return when(otp_type){
+            AbstractAccount.TYPE_TOTP -> TotpAccount(this)
+            AbstractAccount.TYPE_HOTP -> HotpAccount(this)
+            AbstractAccount.TYPE_STEAM -> TotpAccount(this) //TODO: update this
+            else -> throw Exception("Unknown account type")
+        }
     }
 
 }

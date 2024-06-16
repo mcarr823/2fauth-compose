@@ -23,7 +23,9 @@ class OtpListScreenViewModel : ViewModel() {
         try {
             val newAccounts = api.getAll2FaAccounts().map { AccountEntity(it) }
             accounts.clear()
-            newAccounts.map(AbstractAccount::parse).let(accounts::addAll)
+            newAccounts
+                .map { it.toAbstractAccount() }
+                .let(accounts::addAll)
             //val db = AppDb.getDatabase()
             //TODO: save in database
             ""
