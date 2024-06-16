@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class OtpListScreenViewModel : ViewModel() {
 
-    var accounts = mutableListOf<AbstractAccount>()
+    var accounts = mutableListOf<AbstractAccount<*>>()
 
     /**
      * @return Error message, or empty string if successful

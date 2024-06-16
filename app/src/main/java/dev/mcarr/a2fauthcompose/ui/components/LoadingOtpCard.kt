@@ -14,10 +14,10 @@ import dev.mcarr.a2fauthcompose.util.TokenUtil
 @Composable
 fun LoadingOtpCard(
     name: String,
-    account: AbstractAccount,
     util: TokenUtil,
     onSuccess: (AbstractToken) -> Unit,
     onError: (Exception) -> Unit
+    account: AbstractAccount<*>,
 ) {
 
     PaddedCard {

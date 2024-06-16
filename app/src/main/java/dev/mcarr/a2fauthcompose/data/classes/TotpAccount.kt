@@ -31,7 +31,7 @@ class TotpAccount(
     algorithm: String,
     secret: String?,
     val period: Int
-) : AbstractAccount(
+) : AbstractAccount<TotpToken>(
     id, groupId, service, account, icon, digits, algorithm, secret
 ) {
 

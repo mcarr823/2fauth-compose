@@ -18,8 +18,8 @@ import dev.mcarr.a2fauthcompose.util.TokenUtil
 import dev.mcarr.a2fauthcompose.viewmodels.TotpTokenViewModel
 
 @Composable
-fun OtpCard(
     account: AbstractAccount,
+fun <T : AbstractToken>OtpCard(
     util: TokenUtil
 ) {
 
@@ -29,8 +29,8 @@ fun OtpCard(
         else
             account.account
     }
-    var otp: AbstractToken? by remember {
         mutableStateOf(account.generate())
+    var otp: T? by remember {
     }
     var generating: Boolean by remember {
         mutableStateOf(false)

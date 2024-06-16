@@ -15,7 +15,7 @@ import dev.turingcomplete.kotlinonetimepassword.HmacAlgorithm
  * @param algorithm The algorithm used to generate the One-Time Password.
  * sha1, sha256, sha512, or md5
  **/
-abstract class AbstractAccount(
+abstract class AbstractAccount<T : AbstractToken>(
     val id: Int,
     val groupId: Int?,
     val service: String?,
@@ -26,9 +26,9 @@ abstract class AbstractAccount(
     val secret: String?
 ) {
 
-    abstract fun generate(secret: ByteArray, isGoogleAuthenticator: Boolean): AbstractToken
+    abstract fun generate(secret: ByteArray, isGoogleAuthenticator: Boolean): T
 
-    fun generate(isGoogleAuthenticator: Boolean): AbstractToken? {
+    fun generate(isGoogleAuthenticator: Boolean): T? {
         val secretBytes = secret?.toByteArray() ?: return null
         return this.generate(
             secret = secretBytes,
@@ -36,7 +36,7 @@ abstract class AbstractAccount(
         )
     }
 
-    fun generate(): AbstractToken? = generate(isGoogleAuthenticator = true)
+    fun generate(): T? = generate(isGoogleAuthenticator = true)
 
     fun getAlgorithm(): HmacAlgorithm = when(algorithm){
         "sha1" -> HmacAlgorithm.SHA1

@@ -19,7 +19,7 @@ class TokenUtil(
 
     private val api = Api(httpUtil)
 
-    suspend fun getOtp(account: AbstractAccount): AbstractToken {
+    suspend fun <T : AbstractToken>getOtp(account: AbstractAccount<T>): AbstractToken {
 
         if (account.secret != null){
             return account.generate() ?: throw Exception("Failed to generate")

@@ -30,7 +30,7 @@ class HotpAccount(
     algorithm: String,
     secret: String?,
     val counter: Int
-) : AbstractAccount(
+) : AbstractAccount<HotpToken>(
     id, groupId, service, account, icon, digits, algorithm, secret
 ) {
 
