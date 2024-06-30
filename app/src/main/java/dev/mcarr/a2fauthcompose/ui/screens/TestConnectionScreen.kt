@@ -1,7 +1,7 @@
 package dev.mcarr.a2fauthcompose.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -48,7 +48,7 @@ fun TestConnectionScreen(
     var messageColor by remember { mutableStateOf(primaryColor) }
     var showButtons by remember { mutableStateOf(false) }
 
-    BoxWithConstraints(
+    Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
     ) {
