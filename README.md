@@ -1,5 +1,7 @@
 # 2FAuth Compose
 
+[![Android CI debug](https://github.com/mcarr823/2fauth-compose/actions/workflows/android.yml/badge.svg)](https://github.com/mcarr823/2fauth-compose/actions/workflows/android.yml)
+
 2fauth-compose is an unofficial Android app for [2FAuth](https://docs.2fauth.app/).
 
 This app connects to your self-hosted 2FAuth instance to generate 2fa tokens on your phone.
